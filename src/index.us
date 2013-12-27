@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="boilerplate">
+    <head>
+        <title>Lineman Angular Boilerplate</title>
+        <!-- social media tags -->
+        <meta property="og:title" content="Lineman Angular Boilerplate" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="www.somedomain.com" />
+        <meta property="og:image" content="" />
+        <meta property="og:description" content="" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <!-- Compiled CSS -->
+        <link rel="stylesheet" type="text/css" href="css/app.css" />
+        
+        <!-- Compiled JS -->
+        <script src="js/app.js"></script>
+    </head>
+    <body>
+        <div id="wrap">
+            <div class="container" ui-view="main"></div>
+        </div>
+        <footer>
+            <div class="container">
+                <p class="text-muted credit">This is the footer</p>
+            </div>
+        </footer>
+    </body>
+</html>

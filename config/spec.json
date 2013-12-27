@@ -1,0 +1,10 @@
+{
+  "framework" : "jasmine",
+  "launch_in_dev" : [ "Chrome", "Safari", "Firefox"],
+  "launch_in_ci" : ["PhantomJS"],
+  "src_files" : [
+    "build/js/app.js",
+    "vendor/angular-mocks/angular-mocks.js",
+    "build/js/spec.js"
+  ]
+}

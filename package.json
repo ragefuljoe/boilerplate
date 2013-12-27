@@ -1,0 +1,21 @@
+{
+  "name": "lineman-angular-boilerplate",
+  "title": "A Boilerplate for use with Lineman based on ng-boilerplate",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Chris Antoine",
+    "company": "SpinWeb"
+  },
+  "devDependencies": {
+    "lineman": "latest",
+    "protractor": "latest",
+    "grunt": "latest",
+    "grunt-angular-templates": "latest",
+    "grunt-ngmin": "~0.0.3"
+  },
+  "scripts": {
+    "start": "lineman run",
+    "test": "lineman spec-ci"
+  }
+}
