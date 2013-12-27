@@ -9,7 +9,7 @@ Install Node.js and then:
 ```sh
 $ git clone git://github.com/cantoine/angular-lineman-boilerplate
 $ cd angular-lineman-boilerplate
-$ sudo npm -g install grunt-cli bower
+$ sudo npm -g install grunt-cli bower lineman
 $ npm install
 $ bower install
 $ lineman run
