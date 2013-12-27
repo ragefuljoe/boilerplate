@@ -24,8 +24,7 @@ $ lineman spec
 ```sh
 $ ./start-selenium.sh
 ```
-
-#In another terminal window
+In another terminal window
 ```sh
 $ lineman e2e
 ```
