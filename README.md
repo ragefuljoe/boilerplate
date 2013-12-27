@@ -19,7 +19,8 @@ $ lineman run
 $ lineman spec
 ```
 
-# e2e tests -- Requires Selenium and probably an update to the shell script path for the jar file and chrome driver. -- This is just a temp thing I threw together.
+# e2e tests
+**Requires Selenium and probably an update to the shell script path for the jar file and chrome driver. -- This is just a temp thing I threw together.**
 ```sh
 $ ./start-selenium.sh
 ```
