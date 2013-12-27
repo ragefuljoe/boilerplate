@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="boilerplate">
+<html data-ng-app="boilerplate">
     <head>
         <title>Lineman Angular Boilerplate</title>
         <!-- social media tags -->
@@ -14,7 +14,9 @@
         <link rel="stylesheet" type="text/css" href="css/app.css" />
         
         <!-- Compiled JS -->
+        <!-- These are manually included for now. Need to change this to be configured by lineman -->
         <script src="js/app.js"></script>
+        <script src="js/template-cache.js"></script>
     </head>
     <body>
         <div id="wrap">

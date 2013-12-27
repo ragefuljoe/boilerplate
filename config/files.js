@@ -11,6 +11,8 @@ module.exports = function(lineman) {
         js: {
             vendor: [
                 "vendor/angular/angular.js",
+                "vendor/angular-ui-router/release/angular-ui-router.js",
+                "vendor/angular-ui-utils/modules/route/route.js",
                 "vendor/angular-bootstrap/ui-bootstrap-tpls.js",
                 "vendor/angular-bootstrap/ui-bootstrap.js",
             ],
