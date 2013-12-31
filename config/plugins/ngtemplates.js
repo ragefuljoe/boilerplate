@@ -6,10 +6,13 @@ module.exports = function(lineman) {
                 common: lineman.config.application.prependTasks.common.concat("ngtemplates")
             },
             ngtemplates: {
-                boilerplate: {
+                app: {
                     cwd: "src/app",
                     src: "**/*.tpl.html",
-                    dest: "<%= files.ngtemplates.dest %>"
+                    dest: "<%= files.ngtemplates.dest %>",
+                    options: {
+                        module: 'boilerplate'
+                    }
                 }
             },
             watch: {
