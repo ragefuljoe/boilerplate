@@ -22,6 +22,14 @@ module.exports = function(lineman) {
     // requests for paths that don't match a static asset in ./build will be forwarded to
     // whatever service might be running on the specified port.
     //
+    actionHero: {
+        directory: process.cwd() + '/server/',
+        config: {
+            logger: {
+                transports: null
+            }
+        }
+    },
     buildDir: "build/",
     distDir: "dist/",
     server: {
