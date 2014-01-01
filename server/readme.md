@@ -1,2 +1,0 @@
-# My actionHero Project
-readme
