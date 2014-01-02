@@ -25,6 +25,11 @@
     "grunt-ngmin": "latest",
     "lineman": "latest",
     "mocha": "latest",
-    "protractor": "latest"
+    "mongoose": "latest",
+    "mongoose-utilities": "latest",
+    "mongoose-validator": "latest",
+    "passport-local-mongoose": "latest",
+    "protractor": "latest",
+    "q": "latest"
   }
 }

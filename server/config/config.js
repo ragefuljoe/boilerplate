@@ -51,6 +51,13 @@ config.general = {
   }
 };
 
+// Mongoose Configs
+config.mongoose = {
+    host: 'localhost',
+    port: '27017',
+    db: 'newedgelaw'
+};
+
 /////////////
 // logging //
 /////////////
@@ -201,7 +208,7 @@ config.servers = {
     },
     // When true, returnErrorCodes will modify the response header for http(s) clients if connection.error is not null.
     //  You can also set connection.rawConnection.responseHttpCode to specify a code per request.
-    returnErrorCodes: false
+    returnErrorCodes: true
   },
   'websocket' : {
   },
