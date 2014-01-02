@@ -3,7 +3,7 @@ exports.auth = function(api, next) {
             var req = connection.rawConnection.req;
             next(connection, true);
             return;
-            console.log('Auth Params: ', connection.params);
+            /*console.log('Auth Params: ', connection.params);
             if (actionTemplate.auth) {
 
                 // Check Headers
@@ -44,7 +44,7 @@ exports.auth = function(api, next) {
 
             } else {
                 next(connection, true);
-            }
+            }*/
         };
 
     api.actions.preProcessors.push(requireAuth);

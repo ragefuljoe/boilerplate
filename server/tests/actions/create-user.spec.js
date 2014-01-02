@@ -5,7 +5,7 @@ describe('Create User Spec', function(){
         action;
 
     beforeEach(function(){
-        action = require('../create-user.js').action;
+        action = require('../../actions/user/create-user.js').action;
     });
 
     it('stats should be returned and make sense', function(done){

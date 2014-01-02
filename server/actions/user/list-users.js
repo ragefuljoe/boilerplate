@@ -50,6 +50,6 @@ action.run = function(api, connection, next){
     );*/
     connection.response = { users: [ {id: 1, name: { first: 'Chris', last: 'Antoine' } } ] };
     next(connection, true);
-}
+};
 
 exports.action = action;

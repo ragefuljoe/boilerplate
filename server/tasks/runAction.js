@@ -1,4 +1,4 @@
-var task = {
+/*var task = {
   name:          'runAction',
   description:   'I will run an action and return the connection object',
   queue:         'default',
@@ -31,4 +31,4 @@ var task = {
   }
 };
 
-exports.task = task;
+exports.task = task;*/

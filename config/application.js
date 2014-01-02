@@ -113,7 +113,15 @@ module.exports = function(lineman) {
                 browser: false
             },
             files: {
-                src: ["server/**/!(spec|e2e).js"]
+                src: [
+                    'server/actions/*.js',
+                    'server/config/*.js',
+                    'server/initializers/*.js',
+                    'server/models/*.js',
+                    'server/tasks/*.js',
+                    'server/servers/*.js',
+                    'server/routes.js'
+                ]
             }
         }
     },

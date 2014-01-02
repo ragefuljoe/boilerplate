@@ -77,7 +77,7 @@ if(cluster.isMaster){
 try{
     fs.mkdirSync(__dirname + '/../log');
 } catch(e) {
-    if(e.code != 'EEXIST'){ console.log(e); process.exit(); }
+    if(e.code !== 'EEXIST'){ console.log(e); process.exit(); }
 }
 
 config.logger.transports.push(function(api, winston) {
@@ -99,7 +99,7 @@ config.stats = {
     keys: [
         'actionHero:stats'
     ]
-}
+};
 
 ///////////
 // Redis //
@@ -144,7 +144,7 @@ config.tasks = {
     timeout: 5000,
     // What redis server should we connect to for tasks / delayed jobs?
     redis: config.redis
-}
+};
 
 /////////////
 // SERVERS //

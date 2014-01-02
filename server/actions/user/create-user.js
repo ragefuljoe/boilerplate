@@ -25,6 +25,6 @@ action.run = function(api, connection, next){
     }
 
     next(connection, true);
-}
+};
 
 exports.action = action;

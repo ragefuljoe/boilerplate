@@ -130,14 +130,13 @@ module.exports = function(mongoose, encOptions) {
         if (!permissions[this.role][resource]) {
             return cb('Access not allowed');
         }
-        if (permissions[this.role][resource].none(permission) 
-            && permissions[this.role][resource].none('*'))
+        if (permissions[this.role][resource].none(permission) && permissions[this.role][resource].none('*'))
         {
             return cb('Access not allowed');
         }
 
         return cb(null);
-    }
+    };
 
     schema.statics.findByToken = function(token) {
         var expirationDate = new Date(),
@@ -180,4 +179,4 @@ module.exports = function(mongoose, encOptions) {
     user = mongoose.model('User', schema);
 
     return user;
-}
+};

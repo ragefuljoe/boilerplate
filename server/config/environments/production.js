@@ -1,23 +1,18 @@
 // I override settings in ../config.js for this environment
 // these changes will be merged on top of those in config.js
-
-var config = {}
-
-//
+var config = {};
 
 config.general = {
-  developmentMode: false
-}
+    developmentMode: false
+};
 
 config.servers = {
-  web: {
-    metadataOptions: {
-      serverInformation: false,
-      requesterInformation: false
+    web: {
+        metadataOptions: {
+            serverInformation: false,
+            requesterInformation: false
+        }
     }
-  }
-}
-
-//
+};
 
 exports.config = config;
