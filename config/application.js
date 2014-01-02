@@ -31,6 +31,11 @@ module.exports = function(lineman) {
     // requests for paths that don't match a static asset in ./build will be forwarded to
     // whatever service might be running on the specified port.
     //
+    spec: {
+        options: {
+            growl: true
+        }
+    },
     server: {
         base: '<%=buildDir %>',
         apiProxy: {
@@ -101,6 +106,16 @@ module.exports = function(lineman) {
         common: [ "handlebars", "coffee", "jst" ],
         dev: [ "images:dev", "webfonts:dev" ],
         dist: [ "images:dist", "webfonts:dist" ]
+    },
+    jshint: {
+        with_overrides: {
+            options: {
+                browser: false
+            },
+            files: {
+                src: ["server/**/!(spec|e2e).js"]
+            }
+        }
     },
     watch: {
         pages: {
