@@ -24,6 +24,11 @@ module.exports = function(lineman) {
     },
     buildDir: "build/",
     distDir: "dist/",
+    spec: {
+        options: {
+            growl: true
+        }
+    },
     // API Proxying
     //
     // During development, you'll likely want to make XHR (AJAX) requests to an API on the same
@@ -31,11 +36,6 @@ module.exports = function(lineman) {
     // requests for paths that don't match a static asset in ./build will be forwarded to
     // whatever service might be running on the specified port.
     //
-    spec: {
-        options: {
-            growl: true
-        }
-    },
     server: {
         base: '<%=buildDir %>',
         apiProxy: {

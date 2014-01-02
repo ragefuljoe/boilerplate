@@ -3,7 +3,7 @@ module.exports = function(lineman) {
         config: {
             loadNpmTasks: lineman.config.application.loadNpmTasks.concat("grunt-mocha-test"),
             prependTasks: {
-                spec: ["mochaTest"]
+                //spec: ["mochaTest"]
             },
             mochaTest: {
                 test: {

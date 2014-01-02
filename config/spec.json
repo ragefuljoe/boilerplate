@@ -1,10 +1,19 @@
 {
-  "framework" : "jasmine",
-  "launch_in_dev" : [ "Chrome", "Safari", "Firefox"],
-  "launch_in_ci" : ["PhantomJS"],
-  "src_files" : [
-    "build/js/app.js",
-    "vendor/angular-mocks/angular-mocks.js",
-    "build/js/spec.js"
-  ]
+    "framework" : "jasmine",
+    "launch_in_dev" : [ "Chrome", "Mocha" ],
+    "launch_in_ci" : ["PhantomJS"],
+    "launchers": {
+        "Mocha": {
+            "command": "mocha server/tests/**/*.spec.js --growl --reporter=tap",
+            "protocol": "tap"
+        }
+    },
+    "src_files" : [
+        "server/tests/**/*.spec.js"
+    ],
+    "serve_files": [
+        "build/js/app.js",
+        "vendor/angular-mocks/angular-mocks.js",
+        "build/js/spec.js"
+    ]
 }
