@@ -1,21 +1,18 @@
 // actionHero Config File
 // I will be loaded into api.config
-
-var fs = require('fs');
-var cluster = require('cluster');
-
-var config = {};
+var fs = require('fs'),
+    cluster = require('cluster'),
+    config = {};
 
 /////////////////////////
 // General Information //
 /////////////////////////
-
 config.general = {
   apiVersion: '0.0.1',
   serverName: 'actionHero API',
   // id can be set here, or it will be generated dynamically.
   //  Be sure that every server you run has a unique ID (which will happen when generated dynamically)
-//  id: 'myActionHeroServer',
+  //id: 'myActionHeroServer',
   // A unique token to your application that servers will use to authenticate to each other
   serverToken: 'change-me',
   // The welcome message seen by TCP and webSocket clients upon connection
@@ -61,9 +58,8 @@ config.mongoose = {
 /////////////
 // logging //
 /////////////
-
 config.logger = {
-  transports: []
+    transports: []
 };
 
 // console logger
@@ -79,9 +75,9 @@ if(cluster.isMaster){
 
 // file logger
 try{
-  fs.mkdirSync(__dirname + '/../log');
+    fs.mkdirSync(__dirname + '/../log');
 } catch(e) {
-  if(e.code != 'EEXIST'){ console.log(e); process.exit(); }
+    if(e.code != 'EEXIST'){ console.log(e); process.exit(); }
 }
 config.logger.transports.push(function(api, winston) {
   return new (winston.transports.File)({
@@ -94,21 +90,19 @@ config.logger.transports.push(function(api, winston) {
 ///////////
 // Stats //
 ///////////
-
 config.stats = {
-  // how often should the server write its stats to redis?
-  writeFrequency: 1000,
-  // what redis key(s) [hash] should be used to store stats?
-  //  provide no key if you do not want to store stats
-  keys: [
-    'actionHero:stats'
-  ]
+    // how often should the server write its stats to redis?
+    writeFrequency: 1000,
+    // what redis key(s) [hash] should be used to store stats?
+    //  provide no key if you do not want to store stats
+    keys: [
+        'actionHero:stats'
+    ]
 }
 
 ///////////
 // Redis //
 ///////////
-
 config.redis = {
   fake: true,
   host: '127.0.0.1',
@@ -121,7 +115,6 @@ config.redis = {
 //////////
 // FAYE //
 //////////
-
 config.faye = {
   // faye's URL mountpoint.  Be sure to not overlap with an action or route
   mount: '/faye',
@@ -138,7 +131,6 @@ config.faye = {
 ///////////
 // TASKS //
 ///////////
-
 // see https://github.com/taskrabbit/node-resque for more information / options
 config.tasks = {
   // Should this node run a scheduler to promote delayed tasks?
@@ -156,9 +148,6 @@ config.tasks = {
 /////////////
 // SERVERS //
 /////////////
-
-// uncomment the section to enable the server
-
 config.servers = {
   'web' : {
     // HTTP or HTTPS?
@@ -224,6 +213,5 @@ config.servers = {
   // },
 };
 
-//////////////////////////////////
-
+////////////////////////
 exports.config = config;
