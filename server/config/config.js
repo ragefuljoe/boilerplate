@@ -72,7 +72,7 @@ if(cluster.isMaster){
 
 // file logger
 try{
-  fs.mkdirSync('./log');
+  fs.mkdirSync(__dirname + '/../log');
 } catch(e) {
   if(e.code != 'EEXIST'){ console.log(e); process.exit(); }
 }
@@ -135,7 +135,7 @@ config.faye = {
 // see https://github.com/taskrabbit/node-resque for more information / options
 config.tasks = {
   // Should this node run a scheduler to promote delayed tasks?
-  scheduler: false,
+  scheduler: true,
   // what queues should the workers work and how many to spawn?
   //  ['*'] is one worker working the * queue
   //  ['high,low'] is one worker working 2 queues
