@@ -14,14 +14,6 @@
 module.exports = function(lineman) {
   //Override application configuration here. Common examples follow in the comments.
   return {
-
-    // API Proxying
-    //
-    // During development, you'll likely want to make XHR (AJAX) requests to an API on the same
-    // port as your lineman development server. By enabling the API proxy and setting the port, all
-    // requests for paths that don't match a static asset in ./build will be forwarded to
-    // whatever service might be running on the specified port.
-    //
     actionHero: {
         directory: process.cwd() + '/server/',
         config: {
@@ -32,6 +24,13 @@ module.exports = function(lineman) {
     },
     buildDir: "build/",
     distDir: "dist/",
+    // API Proxying
+    //
+    // During development, you'll likely want to make XHR (AJAX) requests to an API on the same
+    // port as your lineman development server. By enabling the API proxy and setting the port, all
+    // requests for paths that don't match a static asset in ./build will be forwarded to
+    // whatever service might be running on the specified port.
+    //
     server: {
         base: '<%=buildDir %>',
         apiProxy: {

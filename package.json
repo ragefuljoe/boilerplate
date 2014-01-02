@@ -11,6 +11,7 @@
     "start": "lineman run",
     "test": "lineman spec-ci",
     "testServer": "node ./node_modules/.bin/mocha --reporter spec server/**/*.spec.js",
+    "testServerWatch": "node ./node_modules/.bin/mocha --check-leaks -w --reporter spec server/**/*.spec.js",
     "startServer": "node ./node_modules/.bin/actionHero start --config=./server/config/config.js",
     "startServerCluster": "node ./node_modules/.bin/actionHero startCluster --config=./server/config/config.js",
     "actionHero": "node ./node_modules/.bin/actionHero",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "grunt": "latest",
     "grunt-angular-templates": "latest",
+    "grunt-mocha": "latest",
     "grunt-ngmin": "latest",
     "lineman": "latest",
     "mocha": "latest",
@@ -30,6 +32,9 @@
     "mongoose-validator": "latest",
     "passport-local-mongoose": "latest",
     "protractor": "latest",
-    "q": "latest"
+    "q": "latest",
+    "should": "latest",
+    "sinon": "latest",
+    "grunt-mocha-test": "~0.8.1"
   }
 }

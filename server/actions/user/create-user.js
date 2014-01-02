@@ -10,7 +10,7 @@ action.version = 1.0;
 action.outputExample = {};
 action.run = function(api, connection, next){
     var randNumber = Math.floor((Math.random()*10)+1);
-    console.log('Create User Action Fired', connection.params);
+    //console.log('Create User Action Fired', connection.params);
     if ( randNumber > 5) {
         connection.response = {
             id: 345678,
