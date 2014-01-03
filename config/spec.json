@@ -1,15 +1,20 @@
 {
     "framework" : "jasmine",
-    "launch_in_dev" : [ "Chrome", "Mocha" ],
+    "launch_in_dev" : [ "Chrome", "Mocha - Unit", "Mocha - Integration" ],
     "launch_in_ci" : ["PhantomJS"],
     "launchers": {
-        "Mocha": {
+        "Mocha - Unit": {
             "command": "mocha server/tests/**/*.spec.js --growl --reporter=tap",
+            "protocol": "tap"
+        },
+        "Mocha - Integration": {
+            "command": "mocha server/tests/**/*.e2e.js --growl --reporter=tap",
             "protocol": "tap"
         }
     },
     "src_files" : [
-        "server/tests/**/*.spec.js"
+        "server/tests/**/*.spec.js",
+        "server/tests/**/*.e2e.js"
     ],
     "serve_files": [
         "build/js/app.js",

@@ -9,7 +9,6 @@ describe('Create User Spec', function(){
     });
 
     it('stats should be returned and make sense', function(done){
-        //console.log('It should do something');
         action.run({}, {}, function() {
             should(true).ok;
             should(true).ok;
@@ -20,7 +19,6 @@ describe('Create User Spec', function(){
     });
 
     it('stats should be returned and make sense2', function(done){
-        //console.log('It should do something');
         action.run({}, {}, function() {
             should(true).ok;
             should(true).ok;
