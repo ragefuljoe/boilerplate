@@ -1,4 +1,5 @@
 process.env.project_root = process.cwd() + '/server/';
+
 exports._setup = {
     serverPrototype: require('actionHero').actionHeroPrototype,
     testUrl:         'http://127.0.0.1:9000/api',
