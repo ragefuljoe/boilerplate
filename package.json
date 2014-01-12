@@ -18,7 +18,7 @@
         "help": "node ./node_modules/.bin/actionHero help"
     },
     "dependencies": {
-        "actionHero": "~7.3.0",
+        "actionHero": "latest",
         "mongoose": "latest",
         "mongoose-utilities": "latest",
         "mongoose-validator": "latest",
@@ -33,8 +33,9 @@
         "lineman": "latest",
         "mocha": "latest",
         "protractor": "latest",
-        "request": "~2.30.0",
+        "request": "latest",
         "should": "latest",
-        "sinon": "latest"
+        "sinon": "latest",
+        "testem": "latest"
     }
 }
