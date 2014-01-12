@@ -14,7 +14,21 @@
 module.exports = function(lineman) {
   //Override application configuration here. Common examples follow in the comments.
   return {
-
+    actionHero: {
+        directory: process.cwd() + '/server/',
+        config: {
+            logger: {
+                transports: null
+            }
+        }
+    },
+    buildDir: "build/",
+    distDir: "dist/",
+    spec: {
+        options: {
+            growl: true
+        }
+    },
     // API Proxying
     //
     // During development, you'll likely want to make XHR (AJAX) requests to an API on the same
@@ -22,8 +36,6 @@ module.exports = function(lineman) {
     // requests for paths that don't match a static asset in ./build will be forwarded to
     // whatever service might be running on the specified port.
     //
-    buildDir: "build/",
-    distDir: "dist/",
     server: {
         base: '<%=buildDir %>',
         apiProxy: {
@@ -94,6 +106,24 @@ module.exports = function(lineman) {
         common: [ "handlebars", "coffee", "jst" ],
         dev: [ "images:dev", "webfonts:dev" ],
         dist: [ "images:dist", "webfonts:dist" ]
+    },
+    jshint: {
+        with_overrides: {
+            options: {
+                browser: false
+            },
+            files: {
+                src: [
+                    'server/actions/*.js',
+                    'server/config/*.js',
+                    'server/initializers/*.js',
+                    'server/models/*.js',
+                    'server/tasks/*.js',
+                    'server/servers/*.js',
+                    'server/routes.js'
+                ]
+            }
+        }
     },
     watch: {
         pages: {

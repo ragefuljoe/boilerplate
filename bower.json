@@ -8,8 +8,6 @@
     "angular-mocks": "latest",
     "bootstrap": "latest",
     "angular-bootstrap": "latest",
-    "angular-bootstrap-edge": "http://ci.angularjs.org/job/angularui-bootstrap/ws/dist/ui-bootstrap-0.8.0-SNAPSHOT.js",
-    "angular-bootstrap-edge-tpls": "http://ci.angularjs.org/job/angularui-bootstrap/ws/dist/ui-bootstrap-tpls-0.8.0-SNAPSHOT.js",
     "angular-ui-router": "latest",
     "angular-ui-utils": "latest"
   }
