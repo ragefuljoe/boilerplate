@@ -28,7 +28,7 @@
     "devDependencies": {
         "grunt": "latest",
         "grunt-angular-templates": "latest",
-        "grunt-mocha-test": "~0.8.1",
+        "grunt-mocha-test": "latest",
         "grunt-ngmin": "latest",
         "lineman": "latest",
         "mocha": "latest",
