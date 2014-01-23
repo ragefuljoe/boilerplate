@@ -5,71 +5,96 @@
 module.exports = function( grunt ) {
 
     // Load the tasks we need
+    grunt.loadNpmTasks('grunt-angular-templates');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-testem');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-ngmin');
-    grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.loadNpmTasks('grunt-debug-task');
 
     var userConfig = require( './build.config.js' );
 
     taskConfig = {
+        pkg: grunt.file.readJSON("package.json"),
         clean: [
           '<%= build_dir %>',
           '<%= compile_dir %>'
         ],
-        jshint: {
-            src: [
-                '<%= app_files.js %>'
-            ],
-            test: [
-                '<%= app_files.jsunit %>'
-            ],
-            gruntfile: [
-                'Gruntfile.js',
-                'build.config.js'
-            ],
-            options: {
-                curly: true,
-                immed: true,
-                newcap: true,
-                noarg: true,
-                sub: true,
-                boss: true,
-                eqnull: true
-            },
-            globals: {}
-        },
-        index: {
+        concat: {
             /**
-            * During development, we don't want to have wait for compilation,
-            * concatenation, minification, etc. So to avoid these steps, we simply
-            * add all script files directly to the `<head>` of `index.html`. The
-            * `src` property contains the list of included files.
+            * The `compile_js` target is the concatenation of our application source
+            * code and all specified vendor source code into a single file.
             */
-            build: {
-                dir: '<%= build_dir %>',
+            compile_js: {
+                options: {
+                    banner: '<%= meta.banner %>'
+                },
                 src: [
                     '<%= vendor_files.js %>',
+                    'module.prefix',
                     '<%= build_dir %>/src/**/*.js',
-                    '<%= vendor_files.css %>'
+                    '<%= html2js.app.dest %>',
+                    '<%= html2js.common.dest %>',
+                    'module.suffix'
+                ],
+                dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
+            }
+        },
+        copy: {
+            build_app_assets: {
+                files: [
+                    {
+                        src: [ '**' ],
+                        dest: '<%= build_dir %>/assets/',
+                        cwd: 'src/assets',
+                        expand: true
+                    }
                 ]
             },
-
-            /**
-            * When it is time to have a completely compiled application, we can
-            * alter the above to include only a single JavaScript and a single CSS
-            * file. Now we're back!
-            */
-            compile: {
-                dir: '<%= compile_dir %>',
-                src: [
-                    '<%= concat.compile_js.dest %>',
-                    '<%= vendor_files.css %>'
+            build_vendor_assets: {
+                files: [
+                    {
+                        src: [ '<%= vendor_files.assets %>' ],
+                        dest: '<%= build_dir %>/assets/',
+                        cwd: '.',
+                        expand: true,
+                        flatten: true
+                    }
+                ]
+            },
+            build_appjs: {
+                files: [
+                    {
+                        src: [ '<%= app_files.js %>' ],
+                        dest: '<%= build_dir %>/',
+                        cwd: '.',
+                        expand: true
+                    }
+                ]
+            },
+            build_vendorjs: {
+                files: [
+                    {
+                        src: [ '<%= vendor_files.js %>' ],
+                        dest: '<%= build_dir %>/',
+                        cwd: '.',
+                        expand: true
+                    }
+                ]
+            },
+            compile_assets: {
+                files: [
+                    {
+                        src: [ '**' ],
+                        dest: '<%= compile_dir %>/assets',
+                        cwd: '<%= build_dir %>/assets',
+                        expand: true
+                    }
                 ]
             }
         },
@@ -116,12 +141,9 @@ module.exports = function( grunt ) {
                 tasks: [ 'index:build' ]
             },
 
-            /**
-            * When our templates change, we only rewrite the template cache.
-            */
-            tpls: {
+            ngtemplates: {
                 files: '<%= app_files.templates %>',
-                tasks: [ 'html2js' ]
+                tasks: [ 'ngtemplates' ]
             },
 
             /**
@@ -129,21 +151,124 @@ module.exports = function( grunt ) {
             */
             less: {
                 files: [ 'src/**/*.less' ],
-                tasks: [  ]
+                tasks: [ 'less:development' ]
+            }
+        },
+        index: {
+            /**
+            * During development, we don't want to have wait for compilation,
+            * concatenation, minification, etc. So to avoid these steps, we simply
+            * add all script files directly to the `<head>` of `index.html`. The
+            * `src` property contains the list of included files.
+            */
+            build: {
+                dir: '<%= build_dir %>',
+                src: [
+                    '<%= vendor_files.js %>',
+                    '<%= build_dir %>/src/**/*.js',
+                    '<%= ngtemplates.app.dest %>',
+                ]
+            },
+
+            /**
+            * When it is time to have a completely compiled application, we can
+            * alter the above to include only a single JavaScript and a single CSS
+            * file. Now we're back!
+            */
+            compile: {
+                dir: '<%= compile_dir %>',
+                src: [
+                    '<%= concat.compile_js.dest %>',
+                    '<%= vendor_files.css %>'
+                ]
+            }
+        },
+        jshint: {
+            src: [
+                '<%= app_files.js %>'
+            ],
+            test: [
+                '<%= app_files.jsunit %>'
+            ],
+            gruntfile: [
+                'Gruntfile.js',
+                'build.config.js'
+            ],
+            options: {
+                curly: true,
+                immed: true,
+                newcap: true,
+                noarg: true,
+                sub: true,
+                boss: true,
+                eqnull: true
+            }
+        },
+        less: {
+            development: {
+                options: {
+                    sourceMap: true
+                },
+                files: [
+                    {
+                        dest: '<%= build_dir %>/assets/app-<%= pkg.version %>.css',
+                        src: '<%=app_files.less %>'
+                    },
+                    {
+                        dest: '<%= build_dir %>/assets/vendor-<%= pkg.version %>.css',
+                        src: '<%=vendor_files.less %>'
+                    }
+                ]
+            },
+            production: {
+                options: {
+                    cleancss: true,
+                    compress: true
+                },
+                files: [
+                    {
+                        dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css',
+                        src: '<%=app_files.less %>'
+                    },
+                    {
+                        dest: '<%= compile_dir %>/assets/vendor-<%= pkg.version %>.css',
+                        src: '<%=vendor_files.less %>'
+                    }
+                ]
+            }
+        },
+        /**
+        * The banner is the comment that is placed at the top of our compiled
+        * source files. It is first processed as a Grunt template, where the `<%=`
+        * pairs are evaluated based on this very configuration object.
+        */
+        meta: {
+            banner:
+                '/**\n' +
+                ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                ' * <%= pkg.homepage %>\n' +
+                ' *\n' +
+                ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+                ' * Licensed <%= pkg.licenses.type %> <<%= pkg.licenses.url %>>\n' +
+                ' */\n'
+        },
+        ngtemplates: {
+            app: {
+                src: '<%= app_files.templates %>',
+                dest: '<%= build_dir %>/templates.js',
+                options: {
+                    module: '<%= pkg.name %>'
+                }
             }
         },
         testem: {
             environment1: {
                 src: [
-                    'bower_components/jquery/jquery.js',
-                    'source/**/*.coffee',
-                    'spec/helpers/*.coffee',
-                    'spec/**/*_spec.coffee'
                 ],
                 options: {
                     parallel: 8,
-                    launch_in_ci: ['PhantomJS', 'Firefox', 'Safari'],
-                    launch_in_dev: ['PhantomJS', 'Firefox', 'Safari']
+                    launch_in_ci: [],
+                    launch_in_dev: []
                 }
             }
         }
@@ -151,11 +276,16 @@ module.exports = function( grunt ) {
 
     grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
 
+    console.log('Config: ', grunt.config('ngtemplates'));
+
     grunt.renameTask( 'watch', 'delta' );
     grunt.registerTask( 'watch', [ 'build', 'delta' ] );
     grunt.registerTask( 'default', [ 'build', 'compile' ] );
-    grunt.registerTask( 'build', [ 'clean', 'index:build' ]);
-    grunt.registerTask( 'compile', [  ]);
+    grunt.registerTask( 'build', [
+        'clean', 'ngtemplates', 'jshint', 'less:development', 'copy:build_appjs', 
+        'copy:build_vendor_assets', 'copy:build_vendorjs', 'index:build'
+    ]);
+    grunt.registerTask( 'compile', []);
 
     grunt.registerTask( 'spec', [ 'testem' ]);
     grunt.registerTask( 'spec-ci', [ 'testem' ]);
@@ -179,13 +309,13 @@ module.exports = function( grunt ) {
     }
 
     grunt.registerMultiTask( 'index', 'Process index.html template', function () {
-        var dirRE = new RegExp( '^(' + grunt.config('build_dir') + '|' + grunt.config('compile_dir') + ')\/', 'g' );
-        var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
-            return file.replace( dirRE, '' );
-        });
-        var cssFiles = filterForCSS( this.filesSrc ).map( function ( file ) {
-            return file.replace( dirRE, '' );
-        });
+        var dirRE = new RegExp( '^(' + grunt.config('build_dir') + '|' + grunt.config('compile_dir') + ')\/', 'g' ),
+            jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
+                return file.replace( dirRE, '' );
+            }),
+            cssFiles = filterForCSS( this.filesSrc ).map( function ( file ) {
+                return file.replace( dirRE, '' );
+            });
 
         grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
             process: function ( contents, path ) {
