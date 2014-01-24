@@ -26,21 +26,23 @@ module.exports = function( grunt ) {
           '<%= compile_dir %>'
         ],
         concat: {
-            /**
-            * The `compile_js` target is the concatenation of our application source
-            * code and all specified vendor source code into a single file.
-            */
+            compile_css: {
+                src: [
+                    '<%= build_dir %>/assets/vendor*.css',
+                    '<%= build_dir %>/assets/<%= pkg.name %>*.css',
+                ],
+                dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+            },
             compile_js: {
                 options: {
                     banner: '<%= meta.banner %>'
                 },
                 src: [
                     '<%= vendor_files.js %>',
-                    'module.prefix',
+                    //'module.prefix',
                     '<%= build_dir %>/src/**/*.js',
-                    '<%= html2js.app.dest %>',
-                    '<%= html2js.common.dest %>',
-                    'module.suffix'
+                    //'<%= html2js.app.dest %>',
+                    //'module.suffix'
                 ],
                 dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
             }
@@ -155,36 +157,25 @@ module.exports = function( grunt ) {
             }
         },
         index: {
-            /**
-            * During development, we don't want to have wait for compilation,
-            * concatenation, minification, etc. So to avoid these steps, we simply
-            * add all script files directly to the `<head>` of `index.html`. The
-            * `src` property contains the list of included files.
-            */
             build: {
                 dir: '<%= build_dir %>',
                 src: [
                     '<%= vendor_files.js %>',
                     '<%= build_dir %>/src/**/*.js',
+                    '<%= build_dir %>/assets/*.css',
                     '<%= ngtemplates.app.dest %>',
                 ]
             },
-
-            /**
-            * When it is time to have a completely compiled application, we can
-            * alter the above to include only a single JavaScript and a single CSS
-            * file. Now we're back!
-            */
             compile: {
                 dir: '<%= compile_dir %>',
                 src: [
-                    '<%= concat.compile_js.dest %>',
-                    '<%= vendor_files.css %>'
+                    '<%= compile_dir %>/src/**/*.js',
+                    '<%= compile_dir %>/assets/*.css'
                 ]
             }
         },
         jshint: {
-            src: [
+            app: [
                 '<%= app_files.js %>'
             ],
             test: [
@@ -255,7 +246,7 @@ module.exports = function( grunt ) {
         ngtemplates: {
             app: {
                 src: '<%= app_files.templates %>',
-                dest: '<%= build_dir %>/templates.js',
+                dest: '<%= build_dir %>/src/templates.js',
                 options: {
                     module: '<%= pkg.name %>'
                 }
@@ -276,8 +267,6 @@ module.exports = function( grunt ) {
 
     grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
 
-    console.log('Config: ', grunt.config('ngtemplates'));
-
     grunt.renameTask( 'watch', 'delta' );
     grunt.registerTask( 'watch', [ 'build', 'delta' ] );
     grunt.registerTask( 'default', [ 'build', 'compile' ] );
@@ -285,7 +274,10 @@ module.exports = function( grunt ) {
         'clean', 'ngtemplates', 'jshint', 'less:development', 'copy:build_appjs', 
         'copy:build_vendor_assets', 'copy:build_vendorjs', 'index:build'
     ]);
-    grunt.registerTask( 'compile', []);
+    grunt.registerTask( 'compile', [
+        'clean', 'ngtemplates', 'jshint', 'less:production', 'copy:build_appjs', 
+        'copy:build_vendor_assets', 'copy:build_vendorjs', 'concat:compile_js', 'concat:compile_css', 'index:compile'
+    ]);
 
     grunt.registerTask( 'spec', [ 'testem' ]);
     grunt.registerTask( 'spec-ci', [ 'testem' ]);
