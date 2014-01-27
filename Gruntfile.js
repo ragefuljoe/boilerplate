@@ -26,13 +26,6 @@ module.exports = function( grunt ) {
           '<%= compile_dir %>'
         ],
         concat: {
-            compile_css: {
-                src: [
-                    '<%= build_dir %>/assets/vendor*.css',
-                    '<%= build_dir %>/assets/<%= pkg.name %>*.css',
-                ],
-                dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
-            },
             compile_js: {
                 options: {
                     banner: '<%= meta.banner %>'
@@ -40,11 +33,15 @@ module.exports = function( grunt ) {
                 src: [
                     '<%= vendor_files.js %>',
                     //'module.prefix',
-                    '<%= build_dir %>/src/**/*.js',
+                    '<%= app_files.js %>',
                     //'<%= html2js.app.dest %>',
                     //'module.suffix'
                 ],
                 dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
+            },
+            compile_spec: {
+                src: '<%= test_files.spec %>',
+                dest: '<%= compile_dir %>/spec.js'
             }
         },
         copy: {
@@ -89,16 +86,16 @@ module.exports = function( grunt ) {
                     }
                 ]
             },
-            compile_assets: {
+            build_spec: {
                 files: [
                     {
-                        src: [ '**' ],
-                        dest: '<%= compile_dir %>/assets',
-                        cwd: '<%= build_dir %>/assets',
+                        src: [ '<%= test_files.spec %>' ],
+                        dest: '<%= build_dir %>',
+                        cwd: '.',
                         expand: true
                     }
                 ]
-            }
+            },
         },
         delta: {
             /**
@@ -121,7 +118,7 @@ module.exports = function( grunt ) {
                 files: [
                   '<%= app_files.js %>'
                 ],
-                tasks: [ 'jshint:src', 'copy:build_appjs' ]
+                tasks: [ 'jshint:app', 'copy:build_appjs' ]
             },
 
             /**
@@ -154,6 +151,11 @@ module.exports = function( grunt ) {
             less: {
                 files: [ 'src/**/*.less' ],
                 tasks: [ 'less:development' ]
+            },
+
+            spec: {
+                files: [ '<%= test_files.spec %>' ],
+                tasks: [ 'copy:build_spec' ]
             }
         },
         index: {
@@ -163,14 +165,14 @@ module.exports = function( grunt ) {
                     '<%= vendor_files.js %>',
                     '<%= build_dir %>/src/**/*.js',
                     '<%= build_dir %>/assets/*.css',
-                    '<%= ngtemplates.app.dest %>',
+                    '<%= ngtemplates.build.dest %>',
                 ]
             },
             compile: {
                 dir: '<%= compile_dir %>',
                 src: [
-                    '<%= compile_dir %>/src/**/*.js',
-                    '<%= compile_dir %>/assets/*.css'
+                    '<%= concat.compile_js.dest %>',
+                    '<%= less.production.files[0].dest %>'
                 ]
             }
         },
@@ -219,11 +221,10 @@ module.exports = function( grunt ) {
                 files: [
                     {
                         dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css',
-                        src: '<%=app_files.less %>'
-                    },
-                    {
-                        dest: '<%= compile_dir %>/assets/vendor-<%= pkg.version %>.css',
-                        src: '<%=vendor_files.less %>'
+                        src: [
+                            '<%=vendor_files.less %>',
+                            '<%=app_files.less %>'
+                        ]
                     }
                 ]
             }
@@ -239,30 +240,71 @@ module.exports = function( grunt ) {
                 ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
                 ' * <%= pkg.homepage %>\n' +
                 ' *\n' +
-                ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+                ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
                 ' * Licensed <%= pkg.licenses.type %> <<%= pkg.licenses.url %>>\n' +
                 ' */\n'
         },
+        ngmin: {
+            compile: {
+                files: [
+                    {
+                        src: [ '<%= app_files.js %>' ],
+                        cwd: '<%= compile_dir %>',
+                        dest: '<%= compile_dir %>',
+                        expand: true
+                    }
+                ]
+            }
+        },
         ngtemplates: {
-            app: {
+            build: {
                 src: '<%= app_files.templates %>',
                 dest: '<%= build_dir %>/src/templates.js',
+                options: {
+                    module: '<%= pkg.name %>'
+                }
+            },
+            compile: {
+                src: '<%= app_files.templates %>',
+                dest: '<%= compile_dir %>/src/templates.js',
                 options: {
                     module: '<%= pkg.name %>'
                 }
             }
         },
         testem: {
-            environment1: {
+            dev: {
+                options: {
+                    serve_files: grunt.util._.union( userConfig.test_files.app, userConfig.test_files.spec),
+                    //watch_files: [ '<%= build_dir %>/*' ],
+                    cwd: '<%= build_dir %>',
+                    parallel: 8,
+                    launch_in_ci: [ 'Chrome' ],
+                    launch_in_dev: [ 'Chrome' ]
+                }
+            },
+            production: {
                 src: [
+                    '<%= concat.compile_js.dest %>',
+                    '<%= concat.compile_spec.dest %>'
                 ],
                 options: {
                     parallel: 8,
-                    launch_in_ci: [],
-                    launch_in_dev: []
+                    launch_in_ci: [ 'Chrome' ],
+                    launch_in_dev: [ 'Chrome' ]
                 }
             }
-        }
+        },
+        uglify: {
+            compile: {
+                options: {
+                    banner: '<%= meta.banner %>'
+                },
+                files: {
+                    '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
+                }
+            }
+        },
     };
 
     grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
@@ -271,16 +313,15 @@ module.exports = function( grunt ) {
     grunt.registerTask( 'watch', [ 'build', 'delta' ] );
     grunt.registerTask( 'default', [ 'build', 'compile' ] );
     grunt.registerTask( 'build', [
-        'clean', 'ngtemplates', 'jshint', 'less:development', 'copy:build_appjs', 
+        'clean', 'ngtemplates:build', 'jshint', 'less:development', 'copy:build_app_assets', 'copy:build_appjs', 
         'copy:build_vendor_assets', 'copy:build_vendorjs', 'index:build'
     ]);
     grunt.registerTask( 'compile', [
-        'clean', 'ngtemplates', 'jshint', 'less:production', 'copy:build_appjs', 
-        'copy:build_vendor_assets', 'copy:build_vendorjs', 'concat:compile_js', 'concat:compile_css', 'index:compile'
+        'clean', 'jshint:app', 'less:production', 'concat:compile_js', 'uglify', 'index:compile'
     ]);
 
-    grunt.registerTask( 'spec', [ 'testem' ]);
-    grunt.registerTask( 'spec-ci', [ 'testem' ]);
+    grunt.registerTask( 'spec', [ 'copy:build_spec', 'testem:run:dev' ]);
+    grunt.registerTask( 'spec-ci', [ 'concat:compile_spec', 'testem:ci:production' ]);
 
     /**
     * A utility function to get all app JavaScript sources.

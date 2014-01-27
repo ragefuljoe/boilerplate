@@ -15,12 +15,24 @@ module.exports = {
         ],
 
         templates: [
-            'src/app/**/*.tpl.html',
-            'src/common/**/*.tpl.html'
+            'src/**/*.tpl.html'
         ],
 
         html: [ 'src/index.html' ],
         less: 'src/less/main.less'
+    },
+    test_files: {
+        app:[
+            'vendor/angular/angular.js',
+            'src/app/**/!(spec)*.js'
+        ],
+        spec:[
+            'vendor/angular-mocks/angular-mocks.js',
+            'src/**/spec.*.js',
+        ],
+        e2e:[
+            'src/**/e2e.*.js',
+        ]
     },
     vendor_files: {
         js: [
