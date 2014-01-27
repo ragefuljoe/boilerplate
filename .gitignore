@@ -10,6 +10,6 @@ npm-debug.log
 
 *.sw*
 build/
-dist/
+bin/
 node_modules/
 vendor/
