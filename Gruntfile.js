@@ -258,16 +258,17 @@ module.exports = function( grunt ) {
         },
         protractor: {
             options: {
-                configFile: "node_modules/protractor/referenceConf.js", // Default config file
-                keepAlive: true, // If false, the grunt process stops when the test fails.
-                args: {
-                    // Arguments passed to the command
-                }
+                configFile: 'node_modules/protractor/referenceConf.js',
+                keepAlive: false
             },
-            your_target: {
+            test: {
                 options: {
                     args: {
-                        specs: '<%= test_files.client.e2e %>'
+                        //seleniumServerJar: '/usr/local/Cellar/selenium-server-standalone/2.39.0/selenium-server-standalone-2.39.0.jar',
+                        seleniumAddress: 'http://localhost:4444/wd/hub',
+                        specs: '<%= test_files.client.e2e %>',
+                        verbose: true,
+                        chromeOnly: true
                     }
                 }
             },
@@ -372,7 +373,7 @@ module.exports = function( grunt ) {
     grunt.registerTask( 'server-e2e', [ 'mochaTest:e2e' ]);
 
     grunt.registerTask( 'test-server', [ 'mochaTest:spec', 'mochaTest:e2e' ]);
-    grunt.registerTask( 'test-application', [ 'compile', 'testem:ci:production' ]);
+    grunt.registerTask( 'test-application', [ 'compile', 'testem:ci:production', 'protractor:test' ]);
 
     /**
     * A utility function to get all app JavaScript sources.
