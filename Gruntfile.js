@@ -127,9 +127,7 @@ module.exports = function( grunt ) {
             * files, so this is probably not very useful.
             */
             assets: {
-                files: [
-                  'src/assets/**/*'
-                ],
+                files: '<%= app_files.assets %>',
                 tasks: [ 'copy:build_assets' ]
             },
 
@@ -246,13 +244,13 @@ module.exports = function( grunt ) {
                 ' */\n'
         },
         mochaTest: {
-            'server-spec': {
+            spec: {
                 options: {
                     reporter: 'tap'
                 },
                 src: '<%= test_files.server.spec %>'
             },
-            'server-e2e': {
+            e2e: {
                 options: {
                     reporter: 'tap'
                 },
@@ -294,11 +292,11 @@ module.exports = function( grunt ) {
                     watch_files: [ '<%= build_dir %>/**/*.*', 'server/*.*' ],
                     launchers: {
                         "API Unit": {
-                            command: 'grunt mochaTest:server-spec',
+                            command: 'grunt mochaTest:spec',
                             protocol: "tap"
                         },
                         "API Integration": {
-                            command: 'grunt mochaTest:server-e2e',
+                            command: 'grunt mochaTest:e2e',
                             protocol: "tap"
                         }
                     },
@@ -316,11 +314,11 @@ module.exports = function( grunt ) {
                     parallel: 8,
                     launchers: {
                         "API Unit": {
-                            command: 'grunt mochaTest:server-spec',
+                            command: 'grunt mochaTest:spec',
                             protocol: "tap"
                         },
                         "API Integration": {
-                            command: 'grunt mochaTest:server-e2e',
+                            command: 'grunt mochaTest:e2e',
                             protocol: "tap"
                         }
                     },
@@ -355,11 +353,11 @@ module.exports = function( grunt ) {
 
     grunt.registerTask( 'test-watch', [ 'copy:build_spec', 'testem:run:dev' ]);
 
-    grunt.registerTask( 'server-spec', [ 'mochaTest:server-spec' ]);
-    grunt.registerTask( 'server-e2e', [ 'mochaTest:server-e2e' ]);
+    grunt.registerTask( 'server-spec', [ 'mochaTest:spec' ]);
+    grunt.registerTask( 'server-e2e', [ 'mochaTest:e2e' ]);
 
-    grunt.registerTask( 'test-server', [ 'mochaTest:server-spec', 'mochaTest:server-e2e' ]);
-    grunt.registerTask( 'test-application', [ 'concat:compile_spec', 'testem:ci:production' ]);
+    grunt.registerTask( 'test-server', [ 'mochaTest:spec', 'mochaTest:e2e' ]);
+    grunt.registerTask( 'test-application', [ 'compile', 'testem:ci:production' ]);
 
     /**
     * A utility function to get all app JavaScript sources.

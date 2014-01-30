@@ -3,10 +3,12 @@ module.exports = {
     compile_dir: 'bin',
     app_files: {
         js: [
-            'src/**/*.js',
-            'src/app/**/!(spec|e2e)*.js',
+            'src/**/!(spec|e2e)*.js',
             '!src/assets/**/*.js',
             '!src/spec/helpers/*.js'
+        ],
+        assets: [
+            'src/assets/**/*'
         ],
 
         jsunit: [
