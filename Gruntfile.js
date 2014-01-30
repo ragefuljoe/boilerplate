@@ -16,6 +16,7 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-ngmin');
+    grunt.loadNpmTasks('grunt-protractor-runner');
     grunt.loadNpmTasks('grunt-debug-task');
 
     var userConfig = require( './build.config.js' );
@@ -254,6 +255,22 @@ module.exports = function( grunt ) {
                 },
                 src: '<%= test_files.server.e2e %>'
             }
+        },
+        protractor: {
+            options: {
+                configFile: "node_modules/protractor/referenceConf.js", // Default config file
+                keepAlive: true, // If false, the grunt process stops when the test fails.
+                args: {
+                    // Arguments passed to the command
+                }
+            },
+            your_target: {
+                options: {
+                    args: {
+                        specs: '<%= test_files.client.e2e %>'
+                    }
+                }
+            },
         },
         ngmin: {
             compile: {
