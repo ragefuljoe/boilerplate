@@ -31,6 +31,7 @@ describe('Home module', function() {
             it('it should display nothing 3', function() {
                 expect(true).toEqual(true);
             });
+
         });
     });
 });

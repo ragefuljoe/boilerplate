@@ -14,6 +14,7 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-contrib-testem');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-debug-task');
 
@@ -40,7 +41,7 @@ module.exports = function( grunt ) {
                 dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
             },
             compile_spec: {
-                src: '<%= test_files.spec %>',
+                src: '<%= test_files.client.spec %>',
                 dest: '<%= compile_dir %>/spec.js'
             }
         },
@@ -89,7 +90,7 @@ module.exports = function( grunt ) {
             build_spec: {
                 files: [
                     {
-                        src: [ '<%= test_files.spec %>' ],
+                        src: [ '<%= test_files.client.spec %>' ],
                         dest: '<%= build_dir %>',
                         cwd: '.',
                         expand: true
@@ -154,7 +155,7 @@ module.exports = function( grunt ) {
             },
 
             spec: {
-                files: [ '<%= test_files.spec %>' ],
+                files: [ '<%= test_files.client.spec %>' ],
                 tasks: [ 'copy:build_spec' ]
             }
         },
@@ -244,6 +245,20 @@ module.exports = function( grunt ) {
                 ' * Licensed <%= pkg.licenses.type %> <<%= pkg.licenses.url %>>\n' +
                 ' */\n'
         },
+        mochaTest: {
+            'server-spec': {
+                options: {
+                    reporter: 'tap'
+                },
+                src: '<%= test_files.server.spec %>'
+            },
+            'server-e2e': {
+                options: {
+                    reporter: 'tap'
+                },
+                src: '<%= test_files.server.e2e %>'
+            }
+        },
         ngmin: {
             compile: {
                 files: [
@@ -275,12 +290,20 @@ module.exports = function( grunt ) {
         testem: {
             dev: {
                 options: {
-                    serve_files: grunt.util._.union( userConfig.test_files.app, userConfig.test_files.spec),
-                    //watch_files: [ '<%= build_dir %>/*' ],
-                    cwd: '<%= build_dir %>',
+                    serve_files: grunt.util._.union( userConfig.test_files.client.app, userConfig.test_files.client.spec).map(function(path){ return '<%= build_dir %>/' + path; }),
+                    watch_files: [ '<%= build_dir %>/**/*.*', 'server/*.*' ],
+                    launchers: {
+                        "API Unit": {
+                            command: 'grunt mochaTest:server-spec',
+                            protocol: "tap"
+                        },
+                        "API Integration": {
+                            command: 'grunt mochaTest:server-e2e',
+                            protocol: "tap"
+                        }
+                    },
                     parallel: 8,
-                    launch_in_ci: [ 'Chrome' ],
-                    launch_in_dev: [ 'Chrome' ]
+                    launch_in_dev: [ 'Chrome', 'API Unit', 'API Integration']
                 }
             },
             production: {
@@ -289,9 +312,19 @@ module.exports = function( grunt ) {
                     '<%= concat.compile_spec.dest %>'
                 ],
                 options: {
+                    serve_files: grunt.util._.union( userConfig.test_files.client.app, userConfig.test_files.client.spec),
                     parallel: 8,
-                    launch_in_ci: [ 'Chrome' ],
-                    launch_in_dev: [ 'Chrome' ]
+                    launchers: {
+                        "API Unit": {
+                            command: 'grunt mochaTest:server-spec',
+                            protocol: "tap"
+                        },
+                        "API Integration": {
+                            command: 'grunt mochaTest:server-e2e',
+                            protocol: "tap"
+                        }
+                    },
+                    launch_in_ci: [ 'Chrome', 'API Unit', 'API Integration' ]
                 }
             }
         },
@@ -320,8 +353,13 @@ module.exports = function( grunt ) {
         'clean', 'jshint:app', 'less:production', 'concat:compile_js', 'uglify', 'index:compile'
     ]);
 
-    grunt.registerTask( 'spec', [ 'copy:build_spec', 'testem:run:dev' ]);
-    grunt.registerTask( 'spec-ci', [ 'concat:compile_spec', 'testem:ci:production' ]);
+    grunt.registerTask( 'test-watch', [ 'copy:build_spec', 'testem:run:dev' ]);
+
+    grunt.registerTask( 'server-spec', [ 'mochaTest:server-spec' ]);
+    grunt.registerTask( 'server-e2e', [ 'mochaTest:server-e2e' ]);
+
+    grunt.registerTask( 'test-server', [ 'mochaTest:server-spec', 'mochaTest:server-e2e' ]);
+    grunt.registerTask( 'test-application', [ 'concat:compile_spec', 'testem:ci:production' ]);
 
     /**
     * A utility function to get all app JavaScript sources.

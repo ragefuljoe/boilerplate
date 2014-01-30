@@ -11,4 +11,8 @@ describe('Auth Initializer', function(){
     it('The initializer should do something', function(done){
         done();
     });
+
+    it('The initializer should do something', function(done){
+        done();
+    });
 });

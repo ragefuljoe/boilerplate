@@ -4,8 +4,7 @@ module.exports = {
     app_files: {
         js: [
             'src/**/*.js',
-            '!src/**/spec.*.js',
-            '!src/**/e2e.*.js',
+            'src/app/**/!(spec|e2e)*.js',
             '!src/assets/**/*.js',
             '!src/spec/helpers/*.js'
         ],
@@ -22,17 +21,27 @@ module.exports = {
         less: 'src/less/main.less'
     },
     test_files: {
-        app:[
-            'vendor/angular/angular.js',
-            'src/app/**/!(spec)*.js'
-        ],
-        spec:[
-            'vendor/angular-mocks/angular-mocks.js',
-            'src/**/spec.*.js',
-        ],
-        e2e:[
-            'src/**/e2e.*.js',
-        ]
+        client: {
+            app:[
+                'vendor/angular/angular.js',
+                'src/app/**/!(spec|e2e)*.js'
+            ],
+            spec:[
+                'vendor/angular-mocks/angular-mocks.js',
+                'src/**/spec.*.js',
+            ],
+            e2e:[
+                'src/**/e2e.*.js',
+            ]
+        },
+        server: {
+            spec:[
+                'server/**/*.spec.js',
+            ],
+            e2e:[
+                'server/**/*.e2e.js',
+            ]
+        }
     },
     vendor_files: {
         js: [
