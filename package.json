@@ -12,10 +12,6 @@
     "company": "SpinWeb"
   },
   "scripts": {
-    "start": "lineman run",
-    "test": "lineman spec-ci",
-    "testServer": "node ./node_modules/.bin/mocha --reporter spec server/**/*.spec.js",
-    "testServerWatch": "node ./node_modules/.bin/mocha --check-leaks -w --reporter spec server/**/*.spec.js",
     "startServer": "node ./node_modules/.bin/actionhero start --config=./server/config/config.js",
     "startServerCluster": "node ./node_modules/.bin/actionHero startCluster --config=./server/config/config.js",
     "actionHero": "node ./node_modules/.bin/actionhero",

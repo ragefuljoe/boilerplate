@@ -116,9 +116,7 @@ module.exports = function( grunt ) {
             * run our unit tests.
             */
             jssrc: {
-                files: [
-                  '<%= app_files.js %>'
-                ],
+                files: '<%= app_files.js %>',
                 tasks: [ 'jshint:app', 'copy:build_appjs' ]
             },
 
