@@ -18,3 +18,13 @@ $ grunt watch
 ```sh
 $ grunt test-watch
 ```
+
+# E2E tests
+```sh
+$ ./start-selenium.sh
+```
+
+#In Another terminal window
+```sh
+$ grunt protractor
+```

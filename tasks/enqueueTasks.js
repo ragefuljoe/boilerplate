@@ -1,13 +1,14 @@
 module.exports = function(grunt) {
-    var ActionHeroPrototype = require('actionhero').actionHeroPrototype;
-    function init(fn) {
-        process.env.project_root = grunt.config('actionHero.directory');
+    var ActionheroPrototype = require('actionhero').actionheroPrototype;
 
-        var actionHero = new ActionHeroPrototype();
+    function init(fn) {
+        process.env.project_root = grunt.config('server.dir');
+
+        var actionHero = new ActionheroPrototype();
 
         actionHero.initialize(
             {
-                configChanges: grunt.config('actionHero.config')
+                configChanges: grunt.config('server.config')
             },
             function(err, api){
                 fn(api);

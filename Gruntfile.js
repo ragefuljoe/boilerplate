@@ -19,6 +19,9 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-protractor-runner');
     grunt.loadNpmTasks('grunt-debug-task');
 
+    // Load custom tasks for Action Hero
+    grunt.loadTasks('./tasks/');
+
     var userConfig = require( './build.config.js' );
 
     taskConfig = {
@@ -34,10 +37,9 @@ module.exports = function( grunt ) {
                 },
                 src: [
                     '<%= vendor_files.js %>',
-                    //'module.prefix',
+                    'module.prefix',
                     '<%= app_files.js %>',
-                    //'<%= html2js.app.dest %>',
-                    //'module.suffix'
+                    'module.suffix'
                 ],
                 dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
             },

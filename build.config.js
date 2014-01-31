@@ -1,6 +1,14 @@
 module.exports = {
     build_dir: 'build',
     compile_dir: 'bin',
+    server: {
+        dir: process.cwd() + '/server',
+        config: {
+            logger: {
+                transports: null
+            }
+        }
+    },
     app_files: {
         js: [
             'src/**/!(spec|e2e)*.js',
@@ -38,10 +46,10 @@ module.exports = {
         },
         server: {
             spec:[
-                'server/**/*.spec.js',
+                '<%= server.dir %>/**/*.spec.js',
             ],
             e2e:[
-                'server/**/*.e2e.js',
+                '<%= server.dir %>/**/*.e2e.js',
             ]
         }
     },
