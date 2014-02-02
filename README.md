@@ -19,7 +19,7 @@ $ grunt watch
 $ grunt test-watch
 ```
 
-# E2E tests
+# E2E tests need some work before they are fully functional.
 ```sh
 $ ./start-selenium.sh
 ```
