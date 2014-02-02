@@ -1,21 +1,18 @@
 {
   "name": "boilerplate",
-  "title": "A Boilerplate for use with Lineman based on ng-boilerplate",
+  "title": "A Boilerplate for use with Angular and Action Hereo based on ng-boilerplate",
   "version": "0.0.1",
   "private": true,
   "licenses": {
     "type": "MIT",
-    "url": "https://raw.github.com/cantoine/angular-lineman-boilerplatemaster/LICENSE"
+    "url": "https://raw.github.com/cantoine/boilerplatemaster/LICENSE"
   },
   "author": {
     "name": "Chris Antoine",
     "company": "SpinWeb"
   },
   "scripts": {
-    "startServer": "node ./node_modules/.bin/actionhero start --config=./server/config/config.js",
-    "startServerCluster": "node ./node_modules/.bin/actionHero startCluster --config=./server/config/config.js",
-    "actionHero": "node ./node_modules/.bin/actionhero",
-    "help": "node ./node_modules/.bin/actionHero help"
+    "test": "grunt test-application"
   },
   "dependencies": {
     "actionhero": "latest",

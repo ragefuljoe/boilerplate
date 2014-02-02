@@ -10,7 +10,9 @@ module.exports = {
         }
     },
     app_files: {
+        manifest:'src/manifest.json',
         js: [
+            'src/background.js',
             'src/**/!(spec|e2e)*.js',
             '!src/assets/**/*.js',
             '!src/spec/helpers/*.js'

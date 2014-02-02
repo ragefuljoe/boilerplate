@@ -25,7 +25,7 @@ module.exports = function( grunt ) {
     var userConfig = require( './build.config.js' );
 
     taskConfig = {
-        pkg: grunt.file.readJSON("package.json"),
+        pkg: grunt.file.readJSON('package.json'),
         clean: [
           '<%= build_dir %>',
           '<%= compile_dir %>'
@@ -49,12 +49,21 @@ module.exports = function( grunt ) {
             }
         },
         copy: {
+            build_manifest: {
+                files: [ 
+                    {
+                        src: '<%= app_files.manifest %>',
+                        dest: '<%= build_dir %>/manifest.json',
+                        cwd: '.'
+                    }
+                ]
+            },
             build_app_assets: {
                 files: [
                     {
-                        src: [ '**' ],
+                        src: '<%= app_files.assets %>',
                         dest: '<%= build_dir %>/assets/',
-                        cwd: 'src/assets',
+                        cwd: '.',
                         expand: true
                     }
                 ]
@@ -123,13 +132,18 @@ module.exports = function( grunt ) {
                 tasks: [ 'jshint:app', 'copy:build_appjs' ]
             },
 
+            manifest: {
+                files: '<%= app_files.manifest %>',
+                tasks: ['copy:build_manifest']
+            },
+
             /**
             * When assets are changed, copy them. Note that this will *not* copy new
             * files, so this is probably not very useful.
             */
             assets: {
                 files: '<%= app_files.assets %>',
-                tasks: [ 'copy:build_assets' ]
+                tasks: [ 'copy:build_app_assets' ]
             },
 
             /**
@@ -261,19 +275,31 @@ module.exports = function( grunt ) {
         protractor: {
             options: {
                 configFile: 'node_modules/protractor/referenceConf.js',
-                keepAlive: false
+                keepAlive: true,
+                chromeOnly: false,
+                args: {
+                }
             },
-            test: {
+            development: {
                 options: {
                     args: {
-                        //seleniumServerJar: '/usr/local/Cellar/selenium-server-standalone/2.39.0/selenium-server-standalone-2.39.0.jar',
+                        baseUrl: 'http://localhost:9090',
                         seleniumAddress: 'http://localhost:4444/wd/hub',
                         specs: '<%= test_files.client.e2e %>',
-                        verbose: true,
-                        chromeOnly: true
+                        browser: 'chrome',
+                        verbose: true
                     }
                 }
             },
+            ci: {
+                options: {
+                    args: {
+                        seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.39.0.jar',
+                        specs: '<%= test_files.client.e2e %>',
+                        browser: 'chrome'
+                    }
+                }
+            }
         },
         ngmin: {
             compile: {
@@ -363,7 +389,7 @@ module.exports = function( grunt ) {
     grunt.registerTask( 'default', [ 'build', 'compile' ] );
     grunt.registerTask( 'build', [
         'clean', 'ngtemplates:build', 'jshint', 'less:development', 'copy:build_app_assets', 'copy:build_appjs', 
-        'copy:build_vendor_assets', 'copy:build_vendorjs', 'index:build'
+        'copy:build_vendor_assets', 'copy:build_vendorjs', 'copy:build_manifest', 'index:build'
     ]);
     grunt.registerTask( 'compile', [
         'clean', 'jshint:app', 'less:production', 'concat:compile_js', 'uglify', 'index:compile'
@@ -375,7 +401,8 @@ module.exports = function( grunt ) {
     grunt.registerTask( 'server-e2e', [ 'mochaTest:e2e' ]);
 
     grunt.registerTask( 'test-server', [ 'mochaTest:spec', 'mochaTest:e2e' ]);
-    grunt.registerTask( 'test-application', [ 'compile', 'testem:ci:production', 'protractor:test' ]);
+    grunt.registerTask( 'test-client', [ 'compile', 'testem:ci:production', 'protractor:test' ]);
+    grunt.registerTask( 'test-application', [ 'test-client', 'test-server'  ]);
 
     /**
     * A utility function to get all app JavaScript sources.

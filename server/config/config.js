@@ -34,7 +34,7 @@ config.general = {
     paths: {
         'action':      __dirname + '/../actions',
         'task':        __dirname + '/../tasks',
-        'public':      process.cwd() + '/build',
+        'public':      __dirname + '/../../build',
         'pid':         __dirname + '/../pids',
         'log':         __dirname + '/../log',
         'server':      __dirname + '/../servers',
