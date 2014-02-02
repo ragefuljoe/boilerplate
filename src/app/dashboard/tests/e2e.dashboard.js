@@ -7,10 +7,22 @@ describe('Home module', function() {
         ptor = protractor.getInstance();
 
         beforeEach(function() {
-            //ptor.get('/');
+            ptor.get('/');
         });
 
         describe('when we do something', function() {
+            it('it should display nothing', function() {
+                expect(true).toEqual(true);
+            });
+
+            it('it should display nothing', function() {
+                expect(true).toEqual(true);
+            });
+
+            it('it should display nothing', function() {
+                expect(true).toEqual(true);
+            });
+
             it('it should display nothing', function() {
                 expect(true).toEqual(true);
             });

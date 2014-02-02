@@ -1,2 +1,4 @@
 angular.module( 'boilerplate', [])
-.run( function run () {});
+.run( function run () {
+    console.log('test'); 
+});

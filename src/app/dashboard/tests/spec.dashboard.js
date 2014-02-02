@@ -23,6 +23,15 @@ describe('Home module', function() {
             it('it should display nothing', function() {
                 expect(true).toEqual(true);
             });
+            
+            it('it should display nothing2', function() {
+                expect(true).toEqual(true);
+            });
+
+            it('it should display nothing 3', function() {
+                expect(true).toEqual(true);
+            });
+
         });
     });
 });

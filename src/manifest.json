@@ -1,0 +1,10 @@
+{
+    "manifest_version": 2,
+    "name": "Boilerplate",
+    "version": "1",
+    "app": {
+        "background": {
+            "scripts": [ "src/background.js" ]
+        }
+    }
+}

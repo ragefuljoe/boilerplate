@@ -11,6 +11,7 @@ exports.mongoose = function(api, next){
     api.mongoose = mongoose;
 
     api.mongoose._teardown = function(api, next) {
+        console.log('Mongoose Tear Down');
         api.mongoose.disconnect();
         api.mongoose.models = {};
         next();

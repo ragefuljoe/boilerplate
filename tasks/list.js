@@ -1,14 +1,14 @@
 module.exports = function(grunt) {
-    var ActionHeroPrototype = require('actionhero').actionHeroPrototype;
+    var ActionheroPrototype = require('actionhero').actionheroPrototype;
 
     function init(fn) {
-        process.env.project_root = grunt.config('actionHero.directory');
+        process.env.project_root = grunt.config('server.dir');
 
-        var actionHero = new ActionHeroPrototype();
+        var actionHero = new ActionheroPrototype();
 
         actionHero.initialize(
             {
-                configChanges: grunt.config('actionHero.config')
+                configChanges: grunt.config('server.config')
             },
             function(err, api){
                 fn(api);
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         );
     }
 
-    return grunt.registerTask('list','List your actions and metadata', 
+    grunt.registerTask('list','List your actions and metadata', 
         function(){
             var done = this.async();
             init(
@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                             grunt.log.writeln('    ' + 'optional inputs: ' + action.inputs.optional.join(', '))
                         }
                     }
+
                     done();
                 }
             );
