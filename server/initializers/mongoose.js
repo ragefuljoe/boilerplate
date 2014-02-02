@@ -1,5 +1,5 @@
 exports.mongoose = function(api, next){
-    /*var mongoose = require('mongoose'),
+    var mongoose = require('mongoose'),
         validator = require('mongoose-validator'),
         host = api.config.mongoose.host || 'localhost',
         port = api.config.mongoose.port || '27017',
@@ -15,7 +15,7 @@ exports.mongoose = function(api, next){
         api.mongoose.disconnect();
         api.mongoose.models = {};
         next();
-    };*/
+    };
 
     next();
 };
