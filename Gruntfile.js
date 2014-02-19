@@ -112,6 +112,13 @@ module.exports = function( grunt ) {
         },
         delta: {
             /**
+            * Adding option to reload browser when any change is saved. 
+            * Defaulting to false.
+            */
+            options: {
+                livereload: false
+            },
+            /**
             * When the Gruntfile changes, we just want to lint it. In fact, when
             * your Gruntfile changes, it will automatically be reloaded!
             */
