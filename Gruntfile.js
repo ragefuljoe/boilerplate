@@ -317,6 +317,7 @@ module.exports = function( grunt ) {
             build: {
                 src: '<%= app_files.templates %>',
                 dest: '<%= build_dir %>/src/templates.js',
+                cwd: 'src/app',
                 options: {
                     module: '<%= pkg.name %>'
                 }

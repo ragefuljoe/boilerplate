@@ -26,7 +26,7 @@ module.exports = {
         ],
 
         templates: [
-            'src/**/*.tpl.html'
+            '**/*.tpl.html'
         ],
 
         html: [ 'src/index.html' ],
