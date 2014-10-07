@@ -116,7 +116,7 @@ module.exports = function( grunt ) {
             * Defaulting to false.
             */
             options: {
-                livereload: false
+                livereload: true
             },
             /**
             * When the Gruntfile changes, we just want to lint it. In fact, when

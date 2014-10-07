@@ -1,6 +1,6 @@
 {
-  "name": "boilerplate",
-  "title": "A Boilerplate for use with Angular and Action Hereo based on ng-boilerplate",
+  "name": "kitdash",
+  "title": "",
   "version": "0.0.1",
   "private": true,
   "licenses": {
@@ -8,8 +8,8 @@
     "url": "https://raw.github.com/cantoine/boilerplatemaster/LICENSE"
   },
   "author": {
-    "name": "Chris Antoine",
-    "company": "SpinWeb"
+    "name": "Matthew Yang",
+    "company": "kitsunecap.com"
   },
   "scripts": {
     "test": "grunt test-application"
