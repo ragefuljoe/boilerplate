@@ -2,7 +2,9 @@ angular.module( 'kitdash', [
 	'kitdash.dashboard',
 	'ui.router',
 	'ui.bootstrap',
-	'ui.bootstrap.tpls'
+	'ui.bootstrap.tpls',
+	'smart-table'
+
 ])
 
 .run( ['$state', function($state) {

@@ -1,7 +1,65 @@
 .dashboard {
+	
     background-color:#ccc;
 }
-
+table{
+	border:1px solid #8f8f8f !important;
+	font-size: 10px;
+	.yield0,.yield1,.yield2{
+		padding:2px !important;
+	}
+	.yield0{
+		background-color: #e3e3e3;
+		border-bottom:1px solid #b9b9b9 !important;
+	}
+	.yield1{
+		background-color: #cdcdcd;
+		border-bottom:none !important;
+		border-right:1px solid #8f8f8f !important;
+	}
+	.yield2{
+		background-color: #e1e1e1;
+		border-bottom:none !important;
+	}
+	.yield3{
+		th{
+			border-top:1px solid #b9b9b9 !important;
+		}
+		th:nth-child(5){
+			border-right:1px solid #8f8f8f !important;
+		}
+		background-color: #aeaeae;
+	}
+	tr{
+		td{
+			padding:4px !important;
+			text-align: center;
+		}
+		td:nth-child(5){
+			border-right:1px solid #8f8f8f !important;
+		}
+	}
+}
 .test {
     color:#000;
+}
+.header-content{
+	cursor: pointer;
+	border-bottom:none !important;
+	padding:2px !important;
+	text-align: center;
+}
+.header-content:before {
+	content: ' ';
+	position: relative;
+
+	left: -5px;
+}
+
+.header-content.st-sort-ascent:before {
+	content: "\25b2";
+}
+
+.header-content.st-sort-descent:before {
+	content: "\25bc";
 }
