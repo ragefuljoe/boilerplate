@@ -2,7 +2,33 @@
 	
     background-color:#ccc;
 }
+.borderme{
+	border: 1px solid #8f8f8f;
+	&,&>div{padding:0!important;}
+	.heading{
+		padding:2px !important;
+		background-color: #e3e3e3;
+		border-bottom:1px solid #b9b9b9 !important;
+		padding-left: 15px !important;
+		font-size: 10px;
+		// line-height: 18px;
+		font-weight: 800;
+	}
+}
+
 table{
+	margin-bottom:0!important;
+	&.curvetrends{
+		border:none !important;
+		border-left:1px solid #8f8f8f!important; 
+		svg{
+		width:100%;
+		height:auto;
+		}
+	}
+	#exampleId{
+
+	}
 	border:1px solid #8f8f8f !important;
 	font-size: 10px;
 	.yield0,.yield1,.yield2{
@@ -11,6 +37,7 @@ table{
 	.yield0{
 		background-color: #e3e3e3;
 		border-bottom:1px solid #b9b9b9 !important;
+		padding-left: 15px !important;
 	}
 	.yield1{
 		background-color: #cdcdcd;
@@ -30,8 +57,15 @@ table{
 		}
 		background-color: #aeaeae;
 	}
+
+	.curvehead{
+		background-color: #aeaeae;
+	}
 	tr{
 		td{
+			p{
+				margin-bottom: 0;
+			}
 			padding:4px !important;
 			text-align: center;
 		}

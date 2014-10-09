@@ -1,0 +1,29 @@
+<table st-table="curvetrends" class="table table-striped curvetrends">
+				<thead>
+				
+				<tr class="curvehead">
+					<th class="header-content">3-Month </th>
+					<th class="header-content">UST Curve</th>
+					<th class="header-content"> Spread Trends</th>
+				</tr>
+				</thead>
+				<tbody >
+					<tr ng-repeat="curve in curvetrends">
+						<td class="col-xs-4">{{curve.three_m}}</td>
+						<td class="col-xs-4"><p><strong>Now {{curve.ust_curve_n}}</strong></p><p>Avg {{curve.ust_curve_avg}}</p></td>
+						<td class="col-xs-4">
+							<nvd3-sparkline-chart
+					    	data="curve.exampleData" 
+					    	id="{{'curve'+$index}}"
+					    	width="100" height="25"
+					    	x="xFunction()"
+        					y="yFunction()"
+        					margin="{left:0, top:0, bottom:0, right:0}"
+        					>
+					        	<svg viewbox="0 0 100 25" preserveAspectRatio="xMinYMin meet"></svg>
+					    	</nvd3-sparkline-chart>
+					    </td>
+					</tr>
+				
+				</tbody>
+			</table>
