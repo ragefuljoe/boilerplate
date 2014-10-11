@@ -4,7 +4,8 @@ angular.module( 'kitdash', [
 	'ui.bootstrap',
 	'ui.bootstrap.tpls',
 	'smart-table',
-	'nvd3ChartDirectives'
+	// 'nvd3ChartDirectives'
+	'nvd3'
 
 ])
 

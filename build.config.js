@@ -66,7 +66,9 @@ module.exports = {
             'vendor/angular-smart-table/dist/smart-table.min.js',
             'vendor/d3/d3.min.js',
             'vendor/nvd3/nv.d3.min.js',
-            'vendor/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js'
+            'vendor/angular-nvd3/dist/angular-nvd3.min.js'
+            // 'vendor/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js'
+
         ],
         /** This can be LESS or just reg CSS files **/
         less: [
